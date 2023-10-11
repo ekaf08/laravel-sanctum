@@ -1,5 +1,12 @@
 <div>
     <div class="container">
+        @if (session()->has('message'))
+            <div class="pt-3">
+                <div class="alert alert-success">
+                    {{ session('message') }}
+                </div>
+            </div>
+        @endif
         <!-- START FORM -->
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <form>
@@ -22,6 +29,19 @@
                         <input type="text" class="form-control" wire:model="alamat">
                     </div>
                 </div>
+
+                @if ($errors->any())
+                    <div class="pt-3">
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $item)
+                                    <li>{{ $item }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                @endif
+
                 <div class="mb-3 row">
                     <label class="col-sm-2 col-form-label"></label>
                     <div class="col-sm-10">

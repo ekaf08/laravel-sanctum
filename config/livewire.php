@@ -156,4 +156,10 @@ return [
     */
 
     'pagination_theme' => 'tailwind',
+
+    // 'asset_url' => env('APP_URL', 'http://localhost'),
+    // 'app_url' => env('APP_URL', 'http://localhost'),
+
+    // 'asset_url' => env('APP_URL', 'http://localhost'),
+
 ];
