@@ -14,6 +14,8 @@ class Employee extends Component
     public $nama;
     public $email;
     public $alamat;
+    public $updateData = false;
+    public $employee_id;
 
     public function store()
     {
@@ -35,6 +37,53 @@ class Employee extends Component
 
         ModelsEmployee::create($validated);
         session()->flash('message', 'Data berhasil dimasukan');
+        $this->clear();
+    }
+
+    public function edit($id)
+    {
+        $data = ModelsEmployee::find($id);
+
+        $this->nama = $data->nama;
+        $this->email = $data->email;
+        $this->alamat = $data->alamat;
+
+        $this->updateData = 'true';
+        $this->employee_id = $id;
+    }
+
+    public function update()
+    {
+        $rules =
+            [
+                'nama' => 'required',
+                'email' => 'required|email|unique:employees,email,' . $this->employee_id . ',id',
+                'alamat' => 'required'
+            ];
+        $pesan =
+            [
+                'nama.required' => 'Nama wajib di isi.',
+                'email.required' => 'Email wajib di isi.',
+                'email.email' => 'Format email tidak sesuai.',
+                'email.unique' => 'Email sudah terdaftar.',
+                'alamat.required' => 'alamat wajib di isi.',
+            ];
+        $validated = $this->validate($rules, $pesan);
+
+        $data = ModelsEmployee::find($this->employee_id);
+        $data->update($validated);
+        session()->flash('message', 'Data berhasil di perbarui');
+        $this->clear();
+    }
+
+    public function clear()
+    {
+        $this->nama = '';
+        $this->email = '';
+        $this->alamat = '';
+
+        $this->updateData = 'false';
+        $this->employee_id = '';
     }
 
     public function render()
