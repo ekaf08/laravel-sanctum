@@ -76,6 +76,16 @@ class Employee extends Component
         $this->clear();
     }
 
+    public function destroy()
+    {
+        $id = $this->employee_id;
+        $data = ModelsEmployee::find($id);
+        $data->delete();
+        session()->flash('message', 'Data berhasil di hapus');
+
+        $this->clear();
+    }
+
     public function clear()
     {
         $this->nama = '';
@@ -84,6 +94,11 @@ class Employee extends Component
 
         $this->updateData = 'false';
         $this->employee_id = '';
+    }
+
+    public function confirmation_destroy($id)
+    {
+        $this->employee_id = $id;
     }
 
     public function render()
