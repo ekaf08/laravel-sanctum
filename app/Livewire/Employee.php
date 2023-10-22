@@ -16,6 +16,7 @@ class Employee extends Component
     public $alamat;
     public $updateData = false;
     public $employee_id;
+    public $kata_kunci;
 
     public function store()
     {
@@ -103,7 +104,14 @@ class Employee extends Component
 
     public function render()
     {
-        $table = ModelsEmployee::orderBy('nama', 'asc')->paginate(10);
+        if ($this->kata_kunci != null) {
+            $table = ModelsEmployee::where('nama', 'like', '%' . $this->kata_kunci . '%')
+                ->orWhere('email', 'like', '%' . $this->kata_kunci . '%')
+                ->orWhere('alamat', 'like', '%' . $this->kata_kunci . '%')
+                ->orderBy('nama', 'asc')->paginate(10);
+        } else {
+            $table = ModelsEmployee::orderBy('nama', 'asc')->paginate(10);
+        }
         $data =
             [
                 'dataEmployees' => $table,
