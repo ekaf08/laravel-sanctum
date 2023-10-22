@@ -67,9 +67,14 @@
                 <input type="text" class="form-control mb-3 w-25" placeholder="Cari pegawai .."
                     wire:model.live="kata_kunci">
             </div>
+            @if ($employee_select_id)
+                <a wire:click="confirmation_destroy('')" class="btn btn-danger btn-sm my-3" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">Delete {{ count($employee_select_id) }} data</a>
+            @endif
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th class="col-md-1">No</th>
                         <th class="col-md-4">Nama</th>
                         <th class="col-md-3">Email</th>
@@ -80,6 +85,10 @@
                 <tbody>
                     @foreach ($dataEmployees as $key => $item)
                         <tr>
+                            <th>
+                                <input type="checkbox" name="" id="" value="{{ $item->id }}"
+                                    wire:key="{{ $item->id }}" wire:model.live="employee_select_id">
+                            </th>
                             <td>{{ $dataEmployees->firstItem() + $key }}</td>
                             <td>{{ ucwords($item->nama) }}</td>
                             <td>{{ $item->email }}</td>
